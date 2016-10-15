@@ -62,7 +62,15 @@ function displayTasks(response){
 
 function deleteTask(event){
   event.preventDefault();
-  var taskId = $(this).data('id');
+  var $deleteConfirm = confirm('Are you sure you want to delete?');
+
+  if ($deleteConfirm == true){
+    var taskId = $(this).data('id');
+  }else {
+    return;
+  }
+
+
 
   $.ajax({
     type: 'DELETE',

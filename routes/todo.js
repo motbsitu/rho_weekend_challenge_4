@@ -62,7 +62,7 @@ router.get('/', function(req, res){
       done();
       return;
     }
-    client.query('SELECT * from todo', function(err, result){
+    client.query('SELECT * from todo ORDER by complete', function(err, result){
       done();
       if(err){
         console.log('error querying to db3', err);
