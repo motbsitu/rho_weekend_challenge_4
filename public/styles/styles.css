@@ -1,0 +1,43 @@
+body{
+  font-family: 'Ubuntu Condensed', sans-serif;
+  text-align: center;
+}
+
+#task{
+  width: 50%;
+  height: 25px;
+}
+table, th, td{
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+.table {
+  width: 50%;
+  margin-bottom: 2rem;
+
+  text-align: left;
+
+  }
+
+.taskHead{
+  text-align: left;
+  width: 200px;
+}
+.completeHead{
+  text-align: left;
+  width: 25px;
+}
+.deleteHead{
+  text-align: left;
+  width:50px;
+}
+
+.task{
+  float:left;
+  width: 200px;
+}
+
+.checkedline {
+  text-decoration: line-through;
+}

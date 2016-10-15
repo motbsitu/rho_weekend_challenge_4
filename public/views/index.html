@@ -1,14 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset='utf-8'>
+
+
     <title>To Do</title>
     <script src='/vendor/jquery.min.js'></script>
     <script src='/scripts/client.js'></script>
-    <link href='https://fonts.googleapis.com/css?family=Taviraj' rel='stylesheet'>
-    <link rel='stylesheet' href='/vendor/bootstrap.min.css' />
-    <link rel='stylesheet' href='/styles/styles.css' />
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu+Condensed" rel="stylesheet">
+
+    <link rel='stylesheet' href='/styles/styles.css'/>
+
+
+
 </head>
 
 <body>
@@ -26,11 +31,14 @@
 
     <table id='todoList' class='table'>
         <tr>
-            <th>
+            <th class='taskHead'>
                 Task
             </th>
-            <th>
+            <th class='completeHead'>
                 Completed
+            </th>
+            <th class='deleteHead'>
+                Delete
             </th>
         </tr>
 
@@ -39,6 +47,7 @@
         </tr>
 
     </table>
+
 </body>
 
 </html>
