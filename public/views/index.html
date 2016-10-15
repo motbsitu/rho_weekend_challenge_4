@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <title>To Do</title>
+    <script src='/vendor/jquery.min.js'></script>
+    <script src='/scripts/client.js'></script>
+    <link href='https://fonts.googleapis.com/css?family=Taviraj' rel='stylesheet'>
+    <link rel='stylesheet' href='/vendor/bootstrap.min.css' />
+    <link rel='stylesheet' href='/styles/styles.css' />
+</head>
+
+<body>
+    <h1> To Do List</h1>
+
+    <h2>Add a task</h2>
+    <form id='taskEntry'>
+        <div class='form-group'>
+            <label for='Task:'></label>
+            <input type='text' id='task' name='task' />
+        </div>
+        <button id='taskSubmit' class='taskButton'>Submit</button>
+    </form>
+
+
+    <table id='todoList' class='table'>
+        <tr>
+            <th>
+                Task
+            </th>
+            <th>
+                Completed
+            </th>
+        </tr>
+
+        <tr id='taskList' >
+
+        </tr>
+
+    </table>
+</body>
+
+</html>

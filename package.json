@@ -1,0 +1,16 @@
+{
+  "name": "rho_weekend_challenge_4",
+  "version": "1.0.0",
+  "description": "Todo List",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Julie S Mike",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "pg": "^6.1.0"
+  }
+}
