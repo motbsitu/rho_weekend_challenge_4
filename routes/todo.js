@@ -102,8 +102,8 @@ router.delete('/:id', function(req, res){
 
 router.put('/:id', function(req, res){
   var id = req.params.id;
-  var id = req.body.task;
-  var id = req.body.complete;
+  var task = req.body.task;
+  var complete = req.body.complete;
 
   pool.connect(function(err, client, done) {
       try{
@@ -114,7 +114,7 @@ router.put('/:id', function(req, res){
           return;
       }
       client.query('UPDATE todo SET complete=$1 WHERE id=$2 RETURNING *;',
-      [complete],
+      [complete, id],
       function(err, result){
                     if (err){
                       console.log('Error querying database', err);

@@ -3,7 +3,8 @@ $(function(){
   $('#taskEntry').on('submit', addTask);
   $('#taskList').on('click', '.delete', deleteTask);
 
-  $('#taskList').on('change', ':checkbox', checkComplete);
+  $('#taskList').on('change', '.toggle', checkComplete);
+
 });
 
 function addTask(){
@@ -37,64 +38,90 @@ function displayTasks(response){
 
   response.forEach(function(task){
     var $tableRow = $('<tr class="table"></tr>');
-    var $ti = $('<td class="table"></td>');
+    //var $ti = $('<td class="table"></td>');
 
-    $ti.append('<td class="task">'+ task.task +'</td>');
-    //something if value = true, it is checked, if false it is not
+    var $thisTask = ('<td class="task">'+ task.task +'</td>')
 
-    var $checkBox = $('<input class="toggle" type="checkbox" name="taskComplete" value="'+ task.complete +'"/>');
-    $checkBox.data('id', task.id);
+    console.log('taskcomplete', task.complete);
+
+    var $checkBox = $('<td><input class="toggle" type="checkbox" name="taskComplete" value="'+ task.complete + '" data-id="' + task.id + '"/></td>');
+
       if(task.complete == true){
-          $ti.append($checkBox.prop('checked', true)) //&& $('.task').addClass('checkedline');
-        }
-        else{
-          $ti.append($checkBox.prop('checked', false)) //&& $('.task').removeClass('checkedline');
-        }
 
-    var $deleteButton = $('<button class="delete">Delete</button>');
-    $deleteButton.data('id', task.id);
-    $ti.append($deleteButton);
+          $tableRow.append('<td class="task checkedline" data-id="'+ task.id +'">'+ task.task +'</td>');
+          $checkBox.children('input').prop('checked', true);
+          $tableRow.append($checkBox);
 
-    $tableRow.append($ti);
+        }else{
+
+          $tableRow.append('<td class="task" data-id="'+ task.id +'">'+ task.task +'</td>');
+          $checkBox.children('input').prop('checked', false);
+          $tableRow.append($checkBox);
+
+        }
+// console.log($checkBox.data('id'));
+    //$checkBox.data('id', task.id);
+          //   $tableRow.append($checkBox.prop('checked', true)) && ('$thisTask').addClass('checkedline');
+        // }
+        // else{
+        //   $tableRow.append($checkBox.prop('checked', false)) //&& $('.task').removeClass('checkedline');
+        // }
+    // $tableRow.append($thisTask);
+    var $deleteButton = $('<td><button class="delete" data-id="'+ task.id +'">Delete</button></td>');
+    // $deleteButton.data('id', task.id);
+    $tableRow.append($deleteButton);
+    //  $deleteButton.data('id', task.id);
+
+    //$tableRow.append($ti);
     $list.append($tableRow);
   });
 }
 
 function deleteTask(event){
   event.preventDefault();
+  var taskId = $(this).data('id');
   var $deleteConfirm = confirm('Are you sure you want to delete?');
 
+  console.log(taskId);
   if ($deleteConfirm == true){
-    var taskId = $(this).data('id');
+    $.ajax({
+      type: 'DELETE',
+      url: '/todo/' + taskId,
+      success: getTasks
+    });
   }else {
     return;
   }
 
 
 
-  $.ajax({
-    type: 'DELETE',
-    url: '/todo/' + taskId,
-    success: getTasks
-  });
+
 }
 
 //this should send new value of checkbox
 function checkComplete(event){
   event.preventDefault();
+  //console.log($(this));
+  var $clickButton = $(this).is(':checked');
 
-  console.log(event);
-  var $taskId = $(this).data('id');
-  console.log('taskId in checkComplete', taskId);
+  console.log($clickButton);
+  // if($clickButton == true){
+  //   $clickButton =!$clickButton
+  // }else {
+  //   $clickButton=$clickButton
+  // }
+
+console.log($(this).data('id'));
 
 
-  //if checked send value true to database, if not checked send false
-  // if
+  var data = {complete: $clickButton};
+  console.log(data);
 
   $.ajax({
     type: 'PUT',
-    url: '/todo/' + $taskId,
-    success: displayTasks
+    url: '/todo/' + $(this).data('id'),
+    data: data,
+    success: getTasks
   });
 
 }

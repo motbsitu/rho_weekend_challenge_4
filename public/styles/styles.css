@@ -22,7 +22,7 @@ table, th, td{
 
 .taskHead{
   text-align: left;
-  width: 200px;
+  width: 50px;
 }
 .completeHead{
   text-align: left;
@@ -35,7 +35,7 @@ table, th, td{
 
 .task{
   float:left;
-  width: 200px;
+  width: 300px;
 }
 
 .checkedline {
