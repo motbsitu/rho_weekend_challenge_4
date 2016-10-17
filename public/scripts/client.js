@@ -36,6 +36,9 @@ function displayTasks(response){
 
     console.log('taskcomplete', task.complete);
 
+    //creates a var for the checkbox, then appends both the checkbox and the task to
+    // the table row in the DOM, with checkbox checked if the complete boolean value
+    //is true, or not checked if value is false. Also assigns database id to each
     var $checkBox = $('<td><input class="toggle" type="checkbox" name="taskComplete" value="'+ task.complete + '" data-id="' + task.id + '"/></td>');
 
       if(task.complete == true){
@@ -48,7 +51,7 @@ function displayTasks(response){
           $checkBox.children('input').prop('checked', false);
           $tableRow.append($checkBox);
         }
-
+    //appends a delete button to the table row and assigns database id to it
     var $deleteButton = $('<td><button class="delete" data-id="'+ task.id +'">Delete</button></td>');
     $tableRow.append($deleteButton);
 
@@ -61,6 +64,7 @@ function deleteTask(event){
   var taskId = $(this).data('id');
   var $deleteConfirm = confirm('Are you sure you want to delete?');
 
+  //confirm alert displayed to confirm that user wants to delete
   if ($deleteConfirm == true){
     $.ajax({
       type: 'DELETE',
@@ -76,6 +80,8 @@ function deleteTask(event){
 function checkComplete(event){
   event.preventDefault();
 
+  //click event changes checkbox current boolean value
+  //sends value to database
   var $clickButton = $(this).is(':checked');
   var data = {complete: $clickButton};
   console.log(data);
