@@ -2,24 +2,21 @@ var router = require('express').Router();
 var pg = require('pg');
 
 var config = {
-    database: 'weekend4' //provide name of database
+    database: 'weekend4'
 };
 
-//initialize the database connection pool
 var pool = new pg.Pool(config);
 
-//create new book
 router.post('/', function(req, res) {
     pool.connect(function(err, client, done) {
         if (err) {
-            //printout err
             console.log('Error connecting to the DB', err);
-            res.sendStatus(500); //send something to client
-            done(); //releases connection
+            res.sendStatus(500);
+            done();
             return;
         }
 
-        client.query('INSERT INTO todo (task) VALUES ($1) returning *;', //$1, etc placeholder
+        client.query('INSERT INTO todo (task) VALUES ($1) returning *;',
             [req.body.task],
             function(err, result) {
                 done();
@@ -29,7 +26,6 @@ router.post('/', function(req, res) {
                     return;
                 }
                 res.send(result.rows);
-
             });
     });
 });
@@ -54,79 +50,77 @@ router.get('/:id', function(req, res) {
         });
     });
 });
-router.get('/', function(req, res){
-  pool.connect(function(err, client, done){
-    if(err){
-      console.log('error connecting to db', err);
-      res.sendStatus(500);
-      done();
-      return;
-    }
-    client.query('SELECT * from todo ORDER by complete', function(err, result){
-      done();
-      if(err){
-        console.log('error querying to db3', err);
-        res.sendStatus(500);
-        done();
-        return;
-      }
-      console.log('got rows from db', result.rows);
-      res.send(result.rows);
+router.get('/', function(req, res) {
+    pool.connect(function(err, client, done) {
+        if (err) {
+            console.log('error connecting to db', err);
+            res.sendStatus(500);
+            done();
+            return;
+        }
+        client.query('SELECT * from todo ORDER by complete', function(err, result) {
+            done();
+            if (err) {
+                console.log('error querying to db3', err);
+                res.sendStatus(500);
+                done();
+                return;
+            }
+            console.log('got rows from db', result.rows);
+            res.send(result.rows);
 
+        });
     });
-  });
 });
 
-router.delete('/:id', function(req, res){
-  var id = req.params.id;
-  pool.connect(function(err,client, done){
-    try{
-      if(err){
-        console.log('Error connecting to the DB', err);
-            res.sendStatus(500); //send something to client
-            return;
-      }
-      client.query('DELETE FROM todo WHERE id=$1', [id], function (err){
-        if(err){
-                  console.log('Error querying database4', err);
-                  res.sendStatus(500);
-                  return;
+router.delete('/:id', function(req, res) {
+    var id = req.params.id;
+    pool.connect(function(err, client, done) {
+        try {
+            if (err) {
+                console.log('Error connecting to the DB', err);
+                res.sendStatus(500);
+                return;
+            }
+            client.query('DELETE FROM todo WHERE id=$1', [id], function(err) {
+                if (err) {
+                    console.log('Error querying database4', err);
+                    res.sendStatus(500);
+                    return;
                 }
                 res.sendStatus(204);
-      });
-    }finally{
-      done();
-    }
-  });
+            });
+        } finally {
+            done();
+        }
+    });
 });
 
-router.put('/:id', function(req, res){
-  var id = req.params.id;
-  var task = req.body.task;
-  var complete = req.body.complete;
+router.put('/:id', function(req, res) {
+    var id = req.params.id;
+    var task = req.body.task;
+    var complete = req.body.complete;
 
-  pool.connect(function(err, client, done) {
-      try{
-      if (err) {
-          //printout err
-          console.log('Error connecting to the DB', err);
-          res.sendStatus(500); //send something to client
-          return;
-      }
-      client.query('UPDATE todo SET complete=$1 WHERE id=$2 RETURNING *;',
-      [complete, id],
-      function(err, result){
-                    if (err){
-                      console.log('Error querying database', err);
-                      res.sendStatus(500);
-                      return; //stop executing if error
+    pool.connect(function(err, client, done) {
+        try {
+            if (err) {
+                console.log('Error connecting to the DB', err);
+                res.sendStatus(500);
+                return;
+            }
+            client.query('UPDATE todo SET complete=$1 WHERE id=$2 RETURNING *;', [complete, id],
+                function(err, result) {
+                    if (err) {
+                        console.log('Error querying database', err);
+                        res.sendStatus(500);
+                        return;
                     }
                     res.send(result.rows);
-                  });
-    }finally{
-      done();
-    }
-  });
+                });
+        } finally {
+            done();
+        }
+    });
 });
 
 module.exports = router;
