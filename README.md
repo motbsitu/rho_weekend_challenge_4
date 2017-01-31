@@ -12,5 +12,3 @@
 
 ##Database Structure
 - The database.sql text file in the repo that includes all of the CREATE TABLE queries to duplicate database.
-
-### Styling is a mess
